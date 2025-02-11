@@ -1,6 +1,6 @@
 # Fund Antazoey
 
-Want to fund Antazoey?
+Want to fund me?
 Here's how!
 
 ## Contracts
