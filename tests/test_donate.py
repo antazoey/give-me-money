@@ -20,7 +20,7 @@ def test_donate(fundme, kind_soul):
 
 
 def test_donate_anonymously(fundme, kind_soul):
-    tx = fundme.donate(True, sender=kind_soul, value="100 ETH")
+    tx = fundme(sender=kind_soul, value="100 ETH")
     assert not tx.failed
 
     # Ensure donation appears in total donations.

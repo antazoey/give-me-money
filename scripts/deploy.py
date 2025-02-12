@@ -1,6 +1,6 @@
 import click
-from ape.cli import account_option, ConnectedProviderCommand
 from ape import project
+from ape.cli import ConnectedProviderCommand, account_option
 
 
 @click.command(cls=ConnectedProviderCommand)

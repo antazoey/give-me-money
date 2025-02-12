@@ -16,19 +16,23 @@ def __init__():
 
 @external
 @payable
-def donate(anon: bool = False):
+def donate():
     """
     Function to receive donations and track the sender.
     """
-    if not anon:
-        self.donations[msg.sender] += msg.value
-
     self.total_donations += msg.value
+    self.donations[msg.sender] += msg.value
     log Donation(msg.sender, msg.value)
 
-
 @external
+@nonreentrant
 def withdraw(amount: uint256):
     assert msg.sender == self.owner, "!authorized"
     assert amount <= self.balance, "Insufficient balance"
     send(msg.sender, amount)
+
+@external
+@payable
+def __default__():
+    self.total_donations += msg.value
+    log Donation(msg.sender, msg.value)
