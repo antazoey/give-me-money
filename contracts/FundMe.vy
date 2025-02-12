@@ -7,7 +7,6 @@ event Donation:
 
 # Storage for tracking donors
 donations: public(HashMap[address, uint256])
-total_donations: public(uint256)
 owner: public(address)
 
 @deploy
@@ -20,7 +19,6 @@ def donate():
     """
     Function to receive donations and track the sender.
     """
-    self.total_donations += msg.value
     self.donations[msg.sender] += msg.value
     log Donation(msg.sender, msg.value)
 
@@ -34,5 +32,4 @@ def withdraw(amount: uint256):
 @external
 @payable
 def __default__():
-    self.total_donations += msg.value
     log Donation(msg.sender, msg.value)

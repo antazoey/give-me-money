@@ -11,7 +11,7 @@ def test_donate(fundme, kind_soul):
 
     # Ensure donation appears in total donations.
     expected = convert("100 ETH", int)
-    actual = fundme.total_donations()
+    actual = fundme.balance
     assert actual == expected
 
     # Ensure the donation is present.
@@ -25,7 +25,7 @@ def test_donate_anonymously(fundme, kind_soul):
 
     # Ensure donation appears in total donations.
     expected = convert("100 ETH", int)
-    actual = fundme.total_donations()
+    actual = fundme.balance
     assert actual == expected
 
     # Ensure the donation is present.
@@ -44,10 +44,15 @@ def test_withdraw_insufficient_balance(fundme, me):
 
 
 def test_withdraw(fundme, me, kind_soul):
-    balance_at_start = me.balance
-    fundme.donate(sender=kind_soul, value="100 ETH")
-    tx = fundme.withdraw("100 ETH", sender=me)
+    HUNDRED_WEI = convert("100 ETH", int)
+    my_starting_balance = me.balance
+    fundme.donate(sender=kind_soul, value=HUNDRED_WEI)
+    contract_starting_balance = fundme.balance
+
+    tx = fundme.withdraw(HUNDRED_WEI, sender=me)
     assert not tx.failed
 
-    expected_balance = balance_at_start + convert("100 ETH", int) - tx.total_fees_paid
-    assert me.balance == expected_balance
+    my_expected_balance = my_starting_balance + HUNDRED_WEI - tx.total_fees_paid
+    contract_expected_balance = contract_starting_balance - HUNDRED_WEI
+    assert me.balance == my_expected_balance
+    assert fundme.balance == contract_expected_balance
