@@ -8,10 +8,14 @@ event Donation:
 # Storage for tracking donors
 donations: public(HashMap[address, uint256])
 owner: public(address)
+deposit_address: public(address)
+cause_name: public(String[24])
 
 @deploy
-def __init__():
+def __init__(owner: address, deposit_address: address, cause_name: String[24]):
     self.owner = msg.sender
+    self.deposit_address = deposit_address
+    self.cause_name = cause_name
 
 @external
 @payable
@@ -27,7 +31,7 @@ def donate():
 def withdraw(amount: uint256):
     assert msg.sender == self.owner, "!authorized"
     assert amount <= self.balance, "Insufficient balance"
-    send(msg.sender, amount)
+    send(self.deposit_address, amount)
 
 @external
 @payable

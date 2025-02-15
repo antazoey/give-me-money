@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture(scope="session")
-def me(accounts):
+def owner(accounts):
     return accounts[0]
 
 
@@ -17,5 +17,10 @@ def sneaky_mf(accounts):
 
 
 @pytest.fixture(scope="session")
-def fundme(me, project):
-    return me.deploy(project.FundMe)
+def cause(owner, project):
+    return owner.deploy(project.Cause, owner, owner, "Antazoey")
+
+
+@pytest.fixture(scope="session")
+def kind_souls_cause(owner, project, kind_soul):
+    return owner.deploy(project.Cause, owner, kind_soul, "Kind Soul")
