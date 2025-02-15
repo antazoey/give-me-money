@@ -6,12 +6,12 @@ def test_owner(cause, owner, kind_souls_cause):
     assert kind_souls_cause.owner() == owner
 
 
-def test_deposit_address(cause, owner, project, kind_soul):
-    assert cause.deposit_address() == owner
+def test_recipient(cause, owner, project, kind_soul):
+    assert cause.recipient() == owner
 
     # Show it can be different.
     new_cause = project.Cause.deploy(owner, kind_soul, "Kind Soul", sender=owner)
-    assert new_cause.deposit_address() == kind_soul
+    assert new_cause.recipient() == kind_soul
 
 
 def test_donate(cause, kind_soul):
