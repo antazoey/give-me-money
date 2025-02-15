@@ -13,8 +13,11 @@ name: public(String[24])
 
 @deploy
 def __init__(owner: address, recipient: address, name: String[24]):
-    self.owner = msg.sender
+    self.owner = owner
+
+    # NOTE: Recipient cannot be changed for a cause.
     self.recipient = recipient
+
     self.name = name
 
 @external
@@ -27,11 +30,15 @@ def donate():
     log Donation(msg.sender, msg.value)
 
 @external
-@nonreentrant
 def withdraw(amount: uint256):
     assert msg.sender == self.owner, "!authorized"
     assert amount <= self.balance, "Insufficient balance"
     send(self.recipient, amount)
+
+@external
+def change_owner(new_owner: address):
+    assert msg.sender == self.owner, "!authorized"
+    self.owner = new_owner
 
 @external
 @payable

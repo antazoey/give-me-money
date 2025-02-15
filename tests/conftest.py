@@ -18,9 +18,9 @@ def sneaky_mf(accounts):
 
 @pytest.fixture(scope="session")
 def cause(owner, project):
-    return owner.deploy(project.Cause, owner, owner, "Antazoey")
+    return owner.deploy(project.CauseAccount, owner, owner, "Antazoey")
 
 
 @pytest.fixture(scope="session")
 def kind_souls_cause(owner, project, kind_soul):
-    return owner.deploy(project.Cause, owner, kind_soul, "Kind Soul")
+    return owner.deploy(project.CauseAccount, owner, kind_soul, "Kind Soul")

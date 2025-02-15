@@ -1,0 +1,11 @@
+[tool.ape.plugins]
+name = "titanoboa"
+
+[tool.ape.ethereum.local]
+default_provider = "boa"
+
+[tool.pytest.ini_options]
+addopts = """
+-p no:pytest_ethereum
+-p no:boa_test
+"""

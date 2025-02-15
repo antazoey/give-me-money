@@ -6,11 +6,17 @@ def test_owner(cause, owner, kind_souls_cause):
     assert kind_souls_cause.owner() == owner
 
 
+def test_owner_different_than_sender(project, owner, kind_soul):
+    # The owner deploys a cause-account for someone else.
+    cause = project.CauseAccount.deploy(kind_soul, kind_soul, "DifferentOwner", sender=owner)
+    assert cause.owner() == kind_soul
+
+
 def test_recipient(cause, owner, project, kind_soul):
     assert cause.recipient() == owner
 
     # Show it can be different.
-    new_cause = project.Cause.deploy(owner, kind_soul, "Kind Soul", sender=owner)
+    new_cause = project.CauseAccount.deploy(owner, kind_soul, "Kind Soul", sender=owner)
     assert new_cause.recipient() == kind_soul
 
 
@@ -71,3 +77,8 @@ def test_withdraw(cause, owner, kind_soul, kind_souls_cause):
     kind_souls_balance = kind_soul.balance
     kind_souls_cause.withdraw(HUNDRED_WEI, sender=owner)
     assert kind_soul.balance == kind_souls_balance + HUNDRED_WEI
+
+
+def test_change_owner(owner, kind_souls_cause, kind_soul):
+    kind_souls_cause.change_owner(kind_soul, sender=owner)
+    assert kind_souls_cause.owner() == kind_soul
